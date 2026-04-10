@@ -7,20 +7,20 @@
 
 :root {
   /* Colors */
-  --color-bg: #f8fafc;
-  --color-bg-secondary: #e2e8f0;
+  --color-bg: #f0f9ff;
+  --color-bg-secondary: #e0f2fe;
   --color-bg-card: #ffffff;
-  --color-bg-elevated: #f1f5f9;
-  --color-bg-hover: #e2e8f0;
-  --color-gold: #fbbf24;
-  --color-gold-light: #fcd34d;
-  --color-gold-dark: #f59e0b;
-  --color-gold-muted: rgba(251, 191, 36, 0.15);
-  --color-text: #1e293b;
-  --color-text-secondary: #475569;
+  --color-bg-elevated: #fefefe;
+  --color-bg-hover: #f0f9ff;
+  --color-gold: #f59e0b;
+  --color-gold-light: #fbbf24;
+  --color-gold-dark: #d97706;
+  --color-gold-muted: rgba(245, 158, 11, 0.15);
+  --color-text: #0f172a;
+  --color-text-secondary: #334155;
   --color-text-muted: #64748b;
-  --color-border: #cbd5e1;
-  --color-border-gold: rgba(251, 191, 36, 0.3);
+  --color-border: #bfdbfe;
+  --color-border-gold: rgba(245, 158, 11, 0.3);
   --color-success: #10b981;
   --color-error: #ef4444;
   --color-warning: #f59e0b;
@@ -29,6 +29,15 @@
   --color-primary-light: #38bdf8;
   --color-primary-dark: #0284c7;
   --color-primary-muted: rgba(14, 165, 233, 0.15);
+  --color-accent: #8b5cf6;
+  --color-accent-light: #a78bfa;
+  --color-accent-muted: rgba(139, 92, 246, 0.15);
+  --color-emerald: #10b981;
+  --color-emerald-light: #34d399;
+  --color-emerald-muted: rgba(16, 185, 129, 0.15);
+  --color-rose: #f43f5e;
+  --color-rose-light: #fb7185;
+  --color-rose-muted: rgba(244, 63, 94, 0.15);
 
   /* Typography */
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -121,7 +130,7 @@ input, textarea, select {
   left: 0;
   right: 0;
   height: var(--navbar-height);
-  background: rgba(248, 250, 252, 0.95);
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(240, 249, 255, 0.95));
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
@@ -129,6 +138,7 @@ input, textarea, select {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
+  box-shadow: 0 2px 16px rgba(14, 165, 233, 0.1);
 }
 
 .navbar-brand {
@@ -273,7 +283,7 @@ input, textarea, select {
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: var(--space-lg);
-  background: linear-gradient(135deg, var(--color-text), var(--color-gold-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -305,25 +315,28 @@ input, textarea, select {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
-  color: var(--color-bg);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.25);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
-  box-shadow: var(--shadow-gold);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+  box-shadow: 0 6px 20px 0 rgba(14, 165, 233, 0.35);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--color-gold);
-  border: 1px solid var(--color-border-gold);
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.25);
 }
 
 .btn-secondary:hover {
-  background: var(--color-gold-muted);
-  border-color: var(--color-gold);
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+  box-shadow: 0 6px 20px 0 rgba(245, 158, 11, 0.35);
+  transform: translateY(-2px);
 }
 
 .btn-danger {
@@ -369,18 +382,20 @@ input, textarea, select {
   overflow: hidden;
   transition: all var(--transition-normal);
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08);
 }
 
 .product-card:hover {
-  border-color: var(--color-border-gold);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-gold);
+  border-color: var(--color-primary);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.15), 0 4px 16px rgba(245, 158, 11, 0.1);
 }
 
 .product-card-image {
   width: 100%;
   height: 220px;
   object-fit: cover;
+  object-position: center;
   background: var(--color-bg-secondary);
 }
 
@@ -391,10 +406,14 @@ input, textarea, select {
 .product-card-category {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-gold);
+  color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: var(--space-xs);
+  background: var(--color-accent-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
 }
 
 .product-card-name {
