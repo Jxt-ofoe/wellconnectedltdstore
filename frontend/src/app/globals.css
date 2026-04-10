@@ -7,24 +7,28 @@
 
 :root {
   /* Colors */
-  --color-bg: #0a0a0a;
-  --color-bg-secondary: #111111;
-  --color-bg-card: #161616;
-  --color-bg-elevated: #1a1a1a;
-  --color-bg-hover: #222222;
-  --color-gold: #d4a843;
-  --color-gold-light: #e8c96a;
-  --color-gold-dark: #b8922e;
-  --color-gold-muted: rgba(212, 168, 67, 0.15);
-  --color-text: #f5f5f5;
-  --color-text-secondary: #a0a0a0;
-  --color-text-muted: #666666;
-  --color-border: #2a2a2a;
-  --color-border-gold: rgba(212, 168, 67, 0.3);
-  --color-success: #4ade80;
-  --color-error: #f87171;
-  --color-warning: #fbbf24;
-  --color-info: #60a5fa;
+  --color-bg: #f8fafc;
+  --color-bg-secondary: #e2e8f0;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #f1f5f9;
+  --color-bg-hover: #e2e8f0;
+  --color-gold: #fbbf24;
+  --color-gold-light: #fcd34d;
+  --color-gold-dark: #f59e0b;
+  --color-gold-muted: rgba(251, 191, 36, 0.15);
+  --color-text: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-border: #cbd5e1;
+  --color-border-gold: rgba(251, 191, 36, 0.3);
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --color-primary: #0ea5e9;
+  --color-primary-light: #38bdf8;
+  --color-primary-dark: #0284c7;
+  --color-primary-muted: rgba(14, 165, 233, 0.15);
 
   /* Typography */
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -117,7 +121,7 @@ input, textarea, select {
   left: 0;
   right: 0;
   height: var(--navbar-height);
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(248, 250, 252, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
@@ -131,7 +135,7 @@ input, textarea, select {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-gold);
+  color: var(--color-primary);
   letter-spacing: 0.02em;
 }
 
@@ -236,9 +240,9 @@ input, textarea, select {
   bottom: 0;
   background: linear-gradient(
     to bottom,
-    rgba(10, 10, 10, 0.75) 0%,
-    rgba(10, 10, 10, 0.6) 40%,
-    rgba(10, 10, 10, 0.85) 100%
+    rgba(248, 250, 252, 0.75) 0%,
+    rgba(248, 250, 252, 0.6) 40%,
+    rgba(248, 250, 252, 0.85) 100%
   );
   pointer-events: none;
 }
@@ -252,12 +256,12 @@ input, textarea, select {
 .hero-badge {
   display: inline-block;
   padding: var(--space-xs) var(--space-md);
-  background: var(--color-gold-muted);
-  border: 1px solid var(--color-border-gold);
+  background: var(--color-primary-muted);
+  border: 1px solid rgba(14, 165, 233, 0.3);
   border-radius: var(--radius-xl);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-gold);
+  color: var(--color-primary);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: var(--space-lg);

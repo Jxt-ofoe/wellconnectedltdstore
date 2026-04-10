@@ -26,7 +26,7 @@ export default function HomePage() {
       <section className="hero">
         <div className="hero-content animate-fade-in-up">
           <span className="hero-badge">✦ Premium Provisions</span>
-          <h1>Your One-Stop Provisions Store</h1>
+          <h1>Good Provisions. Siimple Shopping</h1>
           <p>
             Quality groceries, household essentials, and everyday provisions 
             delivered to your doorstep. Stock up on everything you need.
