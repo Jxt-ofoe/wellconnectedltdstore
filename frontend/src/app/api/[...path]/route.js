@@ -33,42 +33,56 @@ async function getApp() {
 }
 
 async function handler(request) {
-  try {
-    const expressApp = await getApp();
-    const { ServerResponse } = require('http');
-    const { Readable } = require('stream');
+  const expressApp = await getApp();
 
-    const url = new URL(request.url);
-    const bodyText =
-      request.method !== 'GET' && request.method !== 'DELETE'
-        ? await request.text()
-        : '';
+  const url = new URL(request.url);
+  const bodyBuffer =
+    request.method !== 'GET' && request.method !== 'DELETE'
+      ? Buffer.from(await request.arrayBuffer())
+      : Buffer.alloc(0);
 
-    const req = Object.assign(Readable.from([Buffer.from(bodyText)]), {
-      method: request.method,
-      url: url.pathname + url.search,
-      headers: Object.fromEntries(request.headers),
+  return new Promise((resolve) => {
+    const { IncomingMessage, ServerResponse } = require('http');
+    const { Socket } = require('net');
+
+    const socket = new Socket();
+    const req = new IncomingMessage(socket);
+    req.method = request.method;
+    req.url = url.pathname + url.search;
+
+    // Copy all headers
+    request.headers.forEach((value, key) => {
+      req.headers[key] = value;
     });
+    req.headers['content-length'] = String(bodyBuffer.length);
 
-    return new Promise((resolve) => {
-      const chunks = [];
-      const res = new ServerResponse(req);
-      res.write = (chunk) => { chunks.push(Buffer.from(chunk)); return true; };
-      res.end = (chunk) => {
-        if (chunk) chunks.push(Buffer.from(chunk));
-        const body = Buffer.concat(chunks);
-        const rawHeaders = res.getHeaders();
-        const headers = Object.fromEntries(
-          Object.entries(rawHeaders).map(([k, v]) => [k, String(v)])
-        );
-        resolve(new Response(body, { status: res.statusCode, headers }));
-      };
-      expressApp(req, res);
-    });
-  } catch (error) {
-    console.error('API Error:', error);
-    return Response.json({ error: 'Internal server error' }, { status: 500 });
-  }
+    const res = new ServerResponse(req);
+    const chunks = [];
+
+    res.write = (chunk) => {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      return true;
+    };
+
+    res.end = (chunk) => {
+      if (chunk) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      const body = Buffer.concat(chunks);
+      const rawHeaders = res.getHeaders();
+      const headers = {};
+      for (const [k, v] of Object.entries(rawHeaders)) {
+        headers[k] = String(v);
+      }
+      resolve(new Response(body, { status: res.statusCode, headers }));
+    };
+
+    expressApp(req, res);
+
+    // Push body into the request stream
+    if (bodyBuffer.length > 0) {
+      req.push(bodyBuffer);
+    }
+    req.push(null);
+  });
 }
 
 export async function GET(request) { return handler(request); }
