@@ -195,6 +195,10 @@ input, textarea, select {
   justify-content: center;
 }
 
+.admin-mobile-only-links {
+  display: none;
+}
+
 .navbar-menu-btn {
   display: none;
   background: none;
@@ -266,9 +270,6 @@ input, textarea, select {
   }
 }
 
-.admin-mobile-only-links {
-  display: none;
-}
 
 /* ==========================================
    Hero Section
