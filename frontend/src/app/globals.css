@@ -832,6 +832,42 @@ select.form-input {
   flex: 1;
   margin-left: var(--sidebar-width);
   padding: var(--space-2xl);
+  min-width: 0; /* Prevent flex items from overflowing */
+}
+
+/* Responsive Admin Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.admin-header-titles {
+  flex: 1;
+  min-width: 250px;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-header-actions {
+    width: 100%;
+  }
+  .admin-header-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
 }
 
 .stats-grid {
@@ -871,13 +907,41 @@ select.form-input {
 /* ==========================================
    Table
    ========================================== */
-.data-table {
+.table-container {
   width: 100%;
-  border-collapse: collapse;
+  overflow-x: auto;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  margin-bottom: var(--space-xl);
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Add a subtle indicator that the table is scrollable on mobile */
+.table-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.05));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+@media (max-width: 768px) {
+  .table-container::after {
+    opacity: 1;
+  }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Ensure table doesn't get too squished */
 }
 
 .data-table th {
@@ -955,10 +1019,18 @@ select.form-input {
   border-radius: var(--radius-lg);
   padding: var(--space-2xl);
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
   animation: slideUp 0.3s ease;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .modal {
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+  }
 }
 
 .modal h2 {
@@ -1287,13 +1359,14 @@ select.form-input {
   }
   .admin-content {
     margin-left: 0;
+    padding: var(--space-lg);
   }
   .cart-item {
     flex-direction: column;
     text-align: center;
   }
   .data-table {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
   .data-table th,
   .data-table td {
@@ -1301,6 +1374,12 @@ select.form-input {
   }
   .stats-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1342,7 +1421,8 @@ select.form-input {
     transition: all var(--transition-fast);
   }
   .admin-mobile-nav a.active {
-    background: var(--color-gold-muted);
-    color: var(--color-gold);
+    background: var(--color-primary-muted);
+    color: var(--color-primary);
+    font-weight: 600;
   }
 }

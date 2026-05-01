@@ -162,8 +162,8 @@ export default function DashboardPage() {
 
   return (
     <div className="animate-fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
-        <div>
+      <div className="admin-header">
+        <div className="admin-header-titles">
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginBottom: '0.5rem' }}>
             Dashboard
           </h1>
@@ -171,13 +171,15 @@ export default function DashboardPage() {
             Welcome back. Here&apos;s your store overview.
           </p>
         </div>
-        <button
-          className="btn btn-secondary"
-          onClick={() => router.push('/admin/change-password')}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-        >
-          <FiKey /> Change Password
-        </button>
+        <div className="admin-header-actions">
+          <button
+            className="btn btn-secondary"
+            onClick={() => router.push('/admin/change-password')}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <FiKey /> Change Password
+          </button>
+        </div>
       </div>
 
       <div className="stats-grid">
@@ -209,7 +211,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Daily Sales Report */}
-      <div style={{ marginTop: '3rem', background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '2rem' }}>
+      <div style={{ marginTop: '3rem', background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-xl)' }}>
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', marginBottom: '1rem' }}>
           Daily Sales Report
         </h2>
@@ -217,7 +219,7 @@ export default function DashboardPage() {
           Generate and download sales report for any date
         </p>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
-          <div className="form-group" style={{ flex: 1, minWidth: '200px', marginBottom: 0 }}>
+          <div className="form-group" style={{ flex: '1 1 250px', marginBottom: 0 }}>
             <label className="form-label">Select Date</label>
             <input
               type="date"
@@ -230,7 +232,7 @@ export default function DashboardPage() {
           <button
             className="btn btn-primary"
             onClick={generateDailySalesReport}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', height: '42px', flex: '1 1 auto', justifyContent: 'center' }}
           >
             <FiDownload /> Generate Report
           </button>

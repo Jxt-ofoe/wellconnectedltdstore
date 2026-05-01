@@ -173,10 +173,14 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="animate-fade-in">
-      <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginBottom: '0.25rem' }}>
-        Orders
-      </h1>
-      <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>{orders.length} total orders</p>
+      <div className="admin-header">
+        <div className="admin-header-titles">
+          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginBottom: '0.25rem' }}>
+            Orders
+          </h1>
+          <p style={{ color: 'var(--color-text-muted)', marginBottom: '0.25rem' }}>{orders.length} total orders</p>
+        </div>
+      </div>
 
       {orders.length === 0 ? (
         <div className="empty-state">
@@ -184,11 +188,11 @@ export default function AdminOrdersPage() {
           <p>Orders from your customers will appear here</p>
         </div>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Order Reference</th>
+                <th>Reference</th>
                 <th>Customer</th>
                 <th>Phone</th>
                 <th>Total</th>
@@ -199,9 +203,8 @@ export default function AdminOrdersPage() {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <>
+                <React.Fragment key={order.id}>
                   <tr
-                    key={order.id}
                     onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
                     style={{ cursor: 'pointer' }}
                   >
@@ -220,69 +223,75 @@ export default function AdminOrdersPage() {
                       {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '—'}
                     </td>
                     <td onClick={(e) => e.stopPropagation()}>
-                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                         <select
                           value={order.status}
                           onChange={(e) => updateStatus(order.id, e.target.value)}
                           className="filter-select"
-                          style={{ minWidth: '100px', padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
+                          style={{ minWidth: '90px', padding: '0.4rem 0.5rem', fontSize: '0.8rem', flex: 1 }}
                         >
                           <option value="pending">Pending</option>
                           <option value="paid">Paid</option>
                           <option value="delivered">Delivered</option>
                         </select>
-                        <button
-                          className="btn btn-secondary btn-sm"
-                          onClick={() => generatePDF(order)}
-                          title="Generate PDF Receipt"
-                          disabled={order.status === 'pending'}
-                          style={{ padding: '0.4rem 0.6rem' }}
-                        >
-                          <FiPrinter />
-                        </button>
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={() => deleteOrder(order.id, order.orderReference || `#${order.id}`)}
-                          title="Delete Order"
-                          style={{ padding: '0.4rem 0.6rem' }}
-                        >
-                          <FiTrash2 />
-                        </button>
+                        <div style={{ display: 'flex', gap: '0.4rem' }}>
+                          <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={() => generatePDF(order)}
+                            title="Generate PDF Receipt"
+                            disabled={order.status === 'pending'}
+                            style={{ padding: '0.4rem 0.6rem' }}
+                          >
+                            <FiPrinter />
+                          </button>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => deleteOrder(order.id, order.orderReference || `#${order.id}`)}
+                            title="Delete Order"
+                            style={{ padding: '0.4rem 0.6rem' }}
+                          >
+                            <FiTrash2 />
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
                   {expandedOrder === order.id && order.items && (
-                    <tr key={`${order.id}-detail`}>
-                      <td colSpan={7} style={{ background: 'var(--color-bg-secondary)', padding: '1rem 1.5rem' }}>
-                        <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', fontWeight: 600 }}>
-                          Order Items:
-                        </div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
-                          <strong>Address:</strong> {order.address}
-                        </div>
-                        {order.items.map((item, idx) => (
-                          <div
-                            key={idx}
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              padding: '0.4rem 0',
-                              fontSize: '0.85rem',
-                              borderBottom: idx < order.items.length - 1 ? '1px solid var(--color-border)' : 'none',
-                            }}
-                          >
-                            <span>
-                              {item.productName || `Product #${item.product_id}`} × {item.quantity}
-                            </span>
-                            <span style={{ color: 'var(--color-gold)' }}>
-                              GH₵{(Number(item.productPrice || 0) * item.quantity).toFixed(2)}
-                            </span>
+                    <tr>
+                      <td colSpan={7} style={{ background: 'var(--color-bg-secondary)', padding: '1.5rem' }}>
+                        <div style={{ maxWidth: '600px' }}>
+                          <div style={{ fontSize: '0.9rem', marginBottom: '0.75rem', fontWeight: 600, color: 'var(--color-primary)' }}>
+                            Order Details
                           </div>
-                        ))}
+                          <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '1rem', background: 'var(--color-bg-card)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
+                            <strong>Delivery Address:</strong><br />
+                            {order.address}
+                          </div>
+                          <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.5rem' }}>Items:</div>
+                          {order.items.map((item, idx) => (
+                            <div
+                              key={idx}
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '0.5rem 0',
+                                fontSize: '0.85rem',
+                                borderBottom: idx < order.items.length - 1 ? '1px solid var(--color-border)' : 'none',
+                              }}
+                            >
+                              <span>
+                                {item.productName || `Product #${item.product_id}`} × {item.quantity}
+                              </span>
+                              <span style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
+                                GH₵{(Number(item.productPrice || 0) * item.quantity).toFixed(2)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>

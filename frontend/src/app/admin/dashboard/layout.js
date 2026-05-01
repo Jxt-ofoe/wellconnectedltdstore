@@ -60,8 +60,10 @@ export default function DashboardLayout({ children }) {
             key={item.href}
             href={item.href}
             className={pathname === item.href ? 'active' : ''}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
           >
-            {item.label}
+            {item.icon}
+            <span>{item.label}</span>
           </Link>
         ))}
       </div>

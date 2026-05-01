@@ -109,16 +109,18 @@ export default function AdminProductsPage() {
 
   return (
     <div className="animate-fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div>
+      <div className="admin-header">
+        <div className="admin-header-titles">
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginBottom: '0.25rem' }}>
             Products
           </h1>
           <p style={{ color: 'var(--color-text-muted)' }}>{products.length} products</p>
         </div>
-        <button className="btn btn-primary" onClick={openCreate}>
-          <FiPlus /> Add Product
-        </button>
+        <div className="admin-header-actions">
+          <button className="btn btn-primary" onClick={openCreate}>
+            <FiPlus /> Add Product
+          </button>
+        </div>
       </div>
 
       {products.length === 0 ? (
@@ -127,7 +129,7 @@ export default function AdminProductsPage() {
           <p>Create your first product to get started</p>
         </div>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -205,9 +207,9 @@ export default function AdminProductsPage() {
                 <label className="form-label">Name</label>
                 <input type="text" name="name" className="form-input" value={form.name} onChange={handleChange} required />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                 <div className="form-group">
-                  <label className="form-label">Price ($)</label>
+                  <label className="form-label">Price (GH₵)</label>
                   <input type="number" name="price" className="form-input" step="0.01" value={form.price} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
@@ -215,7 +217,7 @@ export default function AdminProductsPage() {
                   <input type="number" name="stock" className="form-input" value={form.stock} onChange={handleChange} />
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                 <div className="form-group">
                   <label className="form-label">Pack Size</label>
                   <input 
@@ -226,7 +228,7 @@ export default function AdminProductsPage() {
                     value={form.pack_size} 
                     onChange={handleChange} 
                   />
-                  <small style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>Number of units in a pack (e.g., 1, 6, 12, 24)</small>
+                  <small style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>Units per pack (e.g., 1, 6, 12, 24)</small>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Unit Price (optional)</label>
