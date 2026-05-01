@@ -1,21 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { FiGrid, FiBox, FiShoppingCart, FiLogOut } from 'react-icons/fi';
+import { FiGrid, FiBox, FiShoppingCart, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
 export default function DashboardLayout({ children }) {
   const { isAuthenticated, isLoaded, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !isAuthenticated) {
       router.push('/admin/login');
     }
   }, [isLoaded, isAuthenticated, router]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   if (!isLoaded) {
     return (
@@ -42,7 +47,16 @@ export default function DashboardLayout({ children }) {
         <Link href="/admin/dashboard" className="navbar-brand">
           WC Admin
         </Link>
-        <div className="navbar-links">
+        
+        <button 
+          className="navbar-menu-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <FiX /> : <FiMenu />}
+        </button>
+
+        <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
           <Link href="/" style={{ fontSize: '0.85rem' }}>View Store</Link>
           <button
             onClick={logout}
