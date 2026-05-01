@@ -57,30 +57,31 @@ export default function DashboardLayout({ children }) {
         </button>
 
         <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
-          <Link href="/" style={{ fontSize: '0.85rem' }}>View Store</Link>
+          {/* Dashboard links only visible in hamburger menu on mobile */}
+          <div className="admin-mobile-only-links">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={pathname === item.href ? 'active' : ''}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            ))}
+            <div className="menu-divider" />
+          </div>
+
+          <Link href="/" className="view-store-link">View Store</Link>
           <button
             onClick={logout}
-            className="btn btn-secondary btn-sm"
+            className="btn btn-secondary btn-sm logout-btn"
           >
             <FiLogOut /> Logout
           </button>
         </div>
       </nav>
 
-      {/* Mobile Nav */}
-      <div className="admin-mobile-nav">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={pathname === item.href ? 'active' : ''}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-          >
-            {item.icon}
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </div>
 
       <div className="admin-layout">
         {/* Sidebar */}

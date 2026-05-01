@@ -212,7 +212,7 @@ input, textarea, select {
   .navbar-links.open {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; /* Full width items */
     position: absolute;
     top: var(--navbar-height);
     left: 0;
@@ -222,8 +222,52 @@ input, textarea, select {
     padding: var(--space-xl);
     border-bottom: 1px solid var(--color-border);
     box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
-    gap: var(--space-lg);
+    gap: var(--space-md);
   }
+
+  .admin-mobile-only-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .admin-mobile-only-links a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0.75rem var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .admin-mobile-only-links a.active {
+    background: var(--color-primary-muted);
+    color: var(--color-primary);
+  }
+
+  .menu-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-md) 0;
+  }
+
+  .view-store-link {
+    padding: 0.75rem var(--space-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .logout-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-sm);
+  }
+}
+
+.admin-mobile-only-links {
+  display: none;
 }
 
 /* ==========================================
@@ -1399,33 +1443,4 @@ select.form-input {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
-}
-
-/* Admin top bar for mobile */
-.admin-mobile-nav {
-  display: none;
-  padding: var(--space-md) var(--space-xl);
-  background: var(--color-bg-secondary);
-  border-bottom: 1px solid var(--color-border);
-  overflow-x: auto;
-  gap: var(--space-md);
-}
-
-@media (max-width: 768px) {
-  .admin-mobile-nav {
-    display: flex;
-  }
-  .admin-mobile-nav a {
-    white-space: nowrap;
-    font-size: 0.85rem;
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--radius-md);
-    color: var(--color-text-secondary);
-    transition: all var(--transition-fast);
-  }
-  .admin-mobile-nav a.active {
-    background: var(--color-primary-muted);
-    color: var(--color-primary);
-    font-weight: 600;
-  }
 }
