@@ -105,16 +105,26 @@ export default function ProductsPage() {
                     loading="lazy"
                   />
                   <div className="category-card-overlay" />
+                  <span className="category-card-badge">
+                    {cat.count} product{cat.count !== 1 ? 's' : ''}
+                  </span>
                 </div>
-                <div className="category-card-body">
-                  <h3 className="category-card-name">{cat.name}</h3>
-                  <p className="category-card-count">{cat.count} product{cat.count !== 1 ? 's' : ''}</p>
-                  <p className="category-card-price">
-                    From GH₵{Number(cat.minPrice).toFixed(2)}
-                  </p>
-                </div>
-                <div className="category-card-arrow">
-                  <FiChevronRight />
+                <div className="category-card-content">
+                  <div className="category-card-body">
+                    <h3 className="category-card-name">{cat.name}</h3>
+                    <div className="category-card-price-tag">
+                      <span className="price-label">Starting from</span>
+                      <span className="price-value">
+                        GH₵{Number(cat.minPrice).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="category-card-footer">
+                    <span className="category-card-action">Explore Category</span>
+                    <div className="category-card-arrow">
+                      <FiChevronRight />
+                    </div>
+                  </div>
                 </div>
               </Link>
             ))}
