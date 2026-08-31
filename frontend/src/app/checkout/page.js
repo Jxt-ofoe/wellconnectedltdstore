@@ -14,6 +14,7 @@ export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const [form, setForm] = useState({ customerName: '', phone: '', address: '', email: '' });
+  const [honeypot, setHoneypot] = useState('');
   const [loading, setLoading] = useState(false);
   const [paystackLoaded, setPaystackLoaded] = useState(false);
 
@@ -29,6 +30,7 @@ export default function CheckoutPage() {
       phone: form.phone,
       address: form.address,
       email: form.email,
+      website_verification: honeypot, // Honeypot trap
       paymentReference: reference.reference,
       items: cart.map((item) => ({
         product_id: item.id,
@@ -64,6 +66,11 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (honeypot) {
+      // Silent drop for automated bots filling invisible fields
+      return;
+    }
 
     if (cart.length === 0) {
       toast.error('Your cart is empty');
@@ -139,6 +146,18 @@ export default function CheckoutPage() {
 
         <div className="checkout-layout">
           <form onSubmit={handleSubmit}>
+            {/* Honeypot field for bot mitigation */}
+            <div style={{ display: 'none', position: 'absolute', left: '-9999px' }} aria-hidden="true">
+              <input
+                type="text"
+                name="website_verification"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex="-1"
+                autoComplete="off"
+              />
+            </div>
+
             <div className="form-group">
               <label className="form-label">Full Name</label>
               <input

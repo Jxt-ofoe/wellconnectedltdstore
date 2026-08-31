@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../db');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
-// Create bundle
-router.post('/', async (req, res) => {
+// Create bundle (admin only)
+router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const { name, description, price, discount, productIds } = req.body;
     if (!name || !Array.isArray(productIds) || productIds.length === 0) {
@@ -40,8 +41,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Update bundle
-router.put('/:id', async (req, res) => {
+// Update bundle (admin only)
+router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const { name, description, price, discount, productIds } = req.body;
     if (!name || !Array.isArray(productIds) || productIds.length === 0) {
@@ -65,8 +66,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete bundle
-router.delete('/:id', async (req, res) => {
+// Delete bundle (admin only)
+router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     await db.deleteBundle(req.params.id);
     res.json({ message: 'Bundle deleted' });

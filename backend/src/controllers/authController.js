@@ -9,10 +9,15 @@ const { db } = require('../db');
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const trimmedEmail = String(email).trim().toLowerCase();
 
     const result = await db.execute({
-      sql: 'SELECT * FROM users WHERE email = ?',
-      args: [email],
+      sql: 'SELECT id, email, password, role FROM users WHERE email = ?',
+      args: [trimmedEmail],
     });
 
     if (result.rows.length === 0) {
